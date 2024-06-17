@@ -1,0 +1,77 @@
+<div class="d-flex aling-items-center justify-content-between flex-wrap mt-5 mb-4 border-bottom">
+    <h2>{{getFormTitle()}}</h2>
+    <div class="d-flex gap-2 mb-3">
+        <a routerLink="/gastos" class="btn btn-outline-secondary">cancelar</a>
+        <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="saveExpense()" 
+        [disabled]="expenseForm.invalid">
+            Guardar gasto     
+        </button>
+    </div>
+</div>
+
+<form class="mb-5" [formGroup]="expenseForm" (ngSubmit)="saveExpense()">
+    <div class="mb-3">
+        <label for="typeInput" class="form-label">tipo de gasto</label>
+        <div class="input-group has-validator">
+            <input 
+            type="text" 
+            formControlName="type" 
+            class="form-control {{hasError('type') ? 'is-invalid' : ''}}"
+            id="typeInput"
+            placeholder="trasnporte,otros"
+            >
+            <div class="invalid-feedback" [ngSwitch]="getCurrentError('type')">
+                <span *ngSwitchCase="'required'">el campo tipo es requerido</span>
+                <span *ngSwitchCase="'maxlength'">el campo debe contener 100 caracteres como maximo</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="amountInput" class="form-label">valor de gasto</label>
+        <div class="input-group has-validator">
+            <span class="input-group-text">$</span>
+            <input type="number" 
+            formControlName="amount" 
+            class="form-control {{hasError('amount') ? 'is-invalid' : ''}}"
+            id="amountInput"
+            placeholder="0.00"
+            >
+            <div class="invalid-feedback" [ngSwitch]="getCurrentError('amount')">
+                <span *ngSwitchCase="'required'">el campo tipo es requerido</span>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="descriptionInput" class="form-label">descripcion</label>
+        <textarea 
+        formControlName="description"
+        class="form-control {{hasError('description') ? 'is-invalid' : ''}}"
+        id="descriptionInput"
+        placeholder="Escribe una descripcion del gasto realizado"
+        ></textarea>
+        <div class="invalid-feedback" [ngSwitch]="getCurrentError('description')">
+            <span *ngSwitchCase="'required'">el campo descripcion es requerido</span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="amountInput" class="form-label">fecha del gasto</label>
+        <input type="date" 
+        formControlName="expense_date" 
+        class="form-control {{hasError('expense_date') ? 'is-invalid' : ''}}"
+        id="expenseDateInput"
+        >
+        <div class="invalid-feedback" [ngSwitch]="getCurrentError('expense_date')">
+            <span *ngSwitchCase="'required'">el campo fecha es requerido</span>
+        </div>
+    </div>
+    <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="expenseForm.invalid"
+    >guardar gasto</button>
+
+</form>
